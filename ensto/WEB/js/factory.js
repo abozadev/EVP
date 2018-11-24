@@ -5,9 +5,11 @@ app.factory('Service', function ($http) {
         getChargingPoints: function(){
             return $http.get(url + '/chargingPoints')
         },
-        getDiagnostics: function(){
-            console.log(eq);
-            return $http.get(eq + '/getDiagnostics')
+        getCharging: function(){
+            return $http.get(eq + '/getCharging')
+        },
+        getLocation: function(){
+            return $http.get(eq + '/getLocation')
         }
     }
 });

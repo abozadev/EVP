@@ -6,8 +6,8 @@ app.controller('MainCtrl', function($scope, $location) {
           $scope.active = "HOME";
       } else if ($location.path().indexOf("bookCharger") !== -1){
           $scope.active = "BOOKCHARGER";
-      } else if ($location.path().indexOf("diagnostics") !== -1){
-          $scope.active = "DIAGNOSTICS";
+      } else if ($location.path().indexOf("map") !== -1){
+          $scope.active = "MAP";
       }
       return $scope.active;
   };

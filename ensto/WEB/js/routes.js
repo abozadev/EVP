@@ -6,8 +6,8 @@ app.config(['$routeProvider', 'ChartJsProvider', function ($routeProvider, Chart
     }).when('/bookCharger', {
         templateUrl: 'views/bookCharger.html',
         controller: 'BookChargerCtrl'
-    }).when('/diagnostics',{
-        templateUrl: 'views/carDiagnostics.html',
-        controller: 'CarCtrl'
+    }).when('/map',{
+        templateUrl: 'views/map.html',
+        controller: 'MapCtrl'
     });
 }]);

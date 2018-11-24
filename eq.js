@@ -33,6 +33,11 @@ var app = express();
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+});
 // Start the server
 var configPort = process.env.PORT;
 var port = (configPort !== undefined ? configPort : 3000);
@@ -41,6 +46,7 @@ var server = app.listen(port, function () {
 });
 
 app.get('/getDiagnostics', function(req, callback){
+  console.log("EQ API");
   request.get({
     url: REST_API_CONFIG.app_uri + '/diagnostics',
     headers: {
@@ -68,7 +74,7 @@ app.get('/getLocation', function(req, callback){
   });
 });
 
-app.get('getCharging', function(req, callback){
+app.get('/getCharging', function(req, callback){
   request.get({
     url: REST_API_CONFIG.app_uri + '/charging',
     headers: {

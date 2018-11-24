@@ -26,6 +26,10 @@
     <script src="js/factory.js"></script>
     <script src="js/bookCharger.js"></script>
     <script src="js/car.js"></script>
+    <script src="js/map.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASD3OrVfKqa-BOTFfWad6-bS0g7KUf_Lo"
+    async defer></script>
 </head>
 
 <body ng-controller="MainCtrl">
@@ -41,8 +45,8 @@
             <li ng-class="getActive() == 'BOOKCHARGER' ? 'active' : ''">
                 <a href="" ng-click="goTo('/bookCharger')">Book Charger</a>
             </li>
-            <li ng-class="getActive() == 'DIAGNOSTICS' ? 'active' : ''">
-                <a href="" ng-click="goTo('/diagnostics')">Diagnostics</a>
+            <li ng-class="getActive() == 'MAP' ? 'active' : ''">
+                <a href="" ng-click="goTo('/map')">Map</a>
             </li>
         </ul>
     </div>
