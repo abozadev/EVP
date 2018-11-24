@@ -1,4 +1,18 @@
-app.controller('BookChargerCtrl', function($scope, $location, $rootScope, $route, $routeParams, Service, $http) {
+app.controller('BookChargerCtrl', function($scope, $location, $rootScope, $route, $routeParams, Service, $http, $timeout) {
+
+  $scope.MODAL_BOOK_URL = 'views/bookCharger_modal.html';
+
+  $scope.CHARGER_POSITION = {
+    lat : 60.184452, 
+    lng : 24.831673
+  }
+
+  $scope.auth = false;
+
+  $scope.user = {
+    name: '',
+    pass: ''
+  }
 
   $scope.loadChargingPoints = function(){
     Service.getChargingPoints().then(function(success){
@@ -10,13 +24,6 @@ app.controller('BookChargerCtrl', function($scope, $location, $rootScope, $route
     Service.getChargingPoint($routeParams.id).then(function(success){
       $scope.chargingPoint = success.data;
     });
-  }
-
-  $scope.auth = false;
-
-  $scope.user = {
-    name: "",
-    pass: ""
   }
 
   $scope.setAuthorizationHeader = function(){
@@ -41,6 +48,20 @@ app.controller('BookChargerCtrl', function($scope, $location, $rootScope, $route
     $location.path('/bookCharger');
   }
 
+  $scope.initMap = function() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: $scope.CHARGER_POSITION,
+      zoom: 15
+    });
+    var image = '../img/charger.png'
+    var marker = new google.maps.Marker({
+      position: $scope.CHARGER_POSITION,
+      map: map,
+      title: 'EV',
+      icon: image
+    });
+  }
+
   $scope.init = function(){
     $scope.credentials = localStorage.getItem('keys');
     if ($scope.credentials != null){
@@ -49,6 +70,7 @@ app.controller('BookChargerCtrl', function($scope, $location, $rootScope, $route
       if ($routeParams.id){
         // Details
         $scope.loadChargingPoint();
+        $timeout(function() {$scope.initMap();}, 4000);        
       } else {
         // List        
         $scope.loadChargingPoints();

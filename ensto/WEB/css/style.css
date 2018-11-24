@@ -20,5 +20,9 @@ ul li  ul {
 #map {
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: relative;
+}
+
+.mapCharger #map {
+  min-height: 40vh;
 }
