@@ -18,6 +18,21 @@ app.factory('Service', function ($http) {
         },
         getLocation: function(){
             return $http.get(eq + '/getLocation')
+        },
+        loadPlacesJSON: function(){
+            return $http.get('/misc/places.json')
+        },
+        bookedHours: function(){
+            return $http.get(url + '/bookedHours')
+        },
+        getParentPermissions: function(id){
+            return $http.get(url + '/getParentPermissions/'+id)
+        },
+        setBookedHours: function(obj){
+            return $http.post(url + '/bookedHours', obj)
+        },
+        addChargingPoint: function(obj, id){
+            return $http.post(url + '/chargingPoint/'+id, obj)
         }
     }
 });
