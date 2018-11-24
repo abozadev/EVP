@@ -14,6 +14,9 @@ ul li  ul {
    display: block;
 }
 
+.btn-login {
+  margin-top: 23px;
+}
 #map {
   height: 100%;
   width: 100%;

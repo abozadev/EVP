@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization ");
 	next();
 });
 
@@ -26,15 +26,25 @@ var server = app.listen(port, function () {
 });
 
 var REST_API_CONFIG = {
-	URL : 'https://junctionev.enstoflow.com/api/v1/',
-	TOKEN: 'anVuY3Rpb246anVuY3Rpb24yMDE4'
+	URL : 'https://junctionev.enstoflow.com/api/v1/'
 }
 
-app.get('/chargingPoints', function (req, res) {
+app.get('/chargingPoint', function (req, res) {
 	request.get({
-	  url: REST_API_CONFIG.URL + '/chargingPointGroup',
+	  url: REST_API_CONFIG.URL + '/chargingPoint',
 	  headers: {
-		'Authorization': 'Basic ' + REST_API_CONFIG.TOKEN
+		'Authorization': req.get('Authorization')
+	  }
+	}, (error, response, body) => {
+	  res.send(body)
+	});
+});
+
+app.get('/chargingPoint/:id', function (req, res) {
+	request.get({
+	  url: REST_API_CONFIG.URL + '/chargingPoint/' + req.params.id,
+	  headers: {
+		'Authorization': req.get('Authorization')
 	  }
 	}, (error, response, body) => {
 	  res.send(body)
