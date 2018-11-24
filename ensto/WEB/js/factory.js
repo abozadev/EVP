@@ -1,6 +1,6 @@
 app.factory('Service', function ($http) {
     var url = 'http://localhost:8888';
-    var eq = 'http://localhost:3000'
+    var eq =  'http://localhost:3000'
     function getHeader(){
         var headers = {
             'Authorization' : 'Basic ' + localStorage.getItem('keys')
@@ -12,9 +12,6 @@ app.factory('Service', function ($http) {
         },
         getChargingPoint: function(id){
             return $http.get(url + '/chargingPoint/' + id, {headers : getHeader()})
-        },
-        getChargingPoints: function(){
-            return $http.get(url + '/chargingPoints')
         },
         getCharging: function(){
             return $http.get(eq + '/getCharging')
