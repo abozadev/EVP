@@ -1,17 +1,44 @@
-<ul>
-  <li ng-repeat="cpg in chargingPointsGroup">
-    {{cpg.name}}
-    <ul>
-      <li ng-repeat="cp in cpg.chargingPoints">{{cp.identifier}}</li>
-    </ul>
-  </li>
-</ul>
-
-
-
-
-<table>
-  <thead>
-    <th>Name</th>
-  </thead>
-</table>
+<div style="margin-left: 40px; margin-right: 40px">
+  <div class="row" ng-if="auth">
+    <div class="form-group col-xs-12 col-md-4" >
+      <button type="submit" class="btn btn-danger" ng-click="logout()">Logout</button>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Vendor</th>
+            <th>Model</th>
+            <th>Connectors</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="cp in chargingPoints track by $index">
+            <td>{{cp.identifier}}</td>
+            <td>{{cp.chargePointVendor}}</td>
+            <td>{{cp.chargePointModel}}</td>
+            <td>{{cp.connectors.length}}</td>
+            <td><a href="" ng-click="goToDetail(cp.identifier)">Details</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row" ng-if="!auth">
+    <form>
+      <div class="form-group col-xs-12 col-md-4">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" placeholder="Username" ng-model="user.name">
+      </div>
+      <div class="form-group col-xs-12 col-md-4">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password" ng-model="user.pass">
+      </div>
+      <div class="form-group col-xs-12 col-md-4" >
+        <button type="submit" class="btn btn-primary btn-login" ng-click="login()">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

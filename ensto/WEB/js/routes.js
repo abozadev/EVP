@@ -6,5 +6,8 @@ app.config(['$routeProvider', 'ChartJsProvider', function ($routeProvider, Chart
     }).when('/bookCharger', {
         templateUrl: 'views/bookCharger.html',
         controller: 'BookChargerCtrl'
+    }).when('/bookCharger/:id', {
+        templateUrl: 'views/bookCharger_details.html',
+        controller: 'BookChargerCtrl'
     });
 }]);
