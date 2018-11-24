@@ -25,6 +25,7 @@
     <script src="js/main.js"></script>
     <script src="js/factory.js"></script>
     <script src="js/bookCharger.js"></script>
+    <script src="js/car.js"></script>
 </head>
 
 <body ng-controller="MainCtrl">
@@ -39,6 +40,9 @@
             </li>
             <li ng-class="getActive() == 'BOOKCHARGER' ? 'active' : ''">
                 <a href="" ng-click="goTo('/bookCharger')">Book Charger</a>
+            </li>
+            <li ng-class="getActive() == 'DIAGNOSTICS' ? 'active' : ''">
+                <a href="" ng-click="goTo('/diagnostics')">Diagnostics</a>
             </li>
         </ul>
     </div>

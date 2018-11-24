@@ -28,33 +28,33 @@ var jwtToken = jwt.sign(payload, privateKey, { algorithm: 'ES256' })
 
 var bodyParser = require('body-parser');
 var path = require("path");
-//var express = require('express');
-//var app = express();
+var express = require('express');
+var app = express();
 
-//app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 
 // Start the server
-//var configPort = process.env.PORT;
-//var port = (configPort !== undefined ? configPort : 8888);
-//var server = app.listen(port, function () {
-//    console.log('Listening on port ' + server.address().port);
-//});
+var configPort = process.env.PORT;
+var port = (configPort !== undefined ? configPort : 3000);
+var server = app.listen(port, function () {
+    console.log('Listening on port ' + server.address().port);
+});
 
-var getDiagnostics = function(callback){
+app.get('/getDiagnostics', function(req, callback){
   request.get({
     url: REST_API_CONFIG.app_uri + '/diagnostics',
     headers: {
       'Authorization': 'Bearer ' + jwtToken
     }
   }, (error, response, body) => {
-    //console.log('error:', error);
-    //console.log('statusCode:', response && response.statusCode);
-    //console.log('body:', body);
-    callback(body);
+    console.log('error:', error);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', body);
+    callback.send(body);
   });
-}
+});
 
-var getLocation = function(callback){
+app.get('/getLocation', function(req, callback){
   request.get({
     url: REST_API_CONFIG.app_uri + '/location',
     headers: {
@@ -62,13 +62,13 @@ var getLocation = function(callback){
     }
   }, (error, response, body) => {
     //console.log('error:', error);
-    //console.log('statusCode:', response && response.statusCode);
-    //console.log('body:', body);
-    callback(body);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', body);
+    callback.send(body);
   });
-}
+});
 
-var getCharging = function(callback){
+app.get('getCharging', function(req, callback){
   request.get({
     url: REST_API_CONFIG.app_uri + '/charging',
     headers: {
@@ -78,11 +78,11 @@ var getCharging = function(callback){
     //console.log('error:', error);
     //console.log('statusCode:', response && response.statusCode);
     //console.log('body:', body);
-    callback(body);
+    callback.send(body);
   });
-}
+});
 
-var startCharging = function(callback){
+app.put('/startCharging', function(req, callback){
   request.put({
     url: REST_API_CONFIG.app_uri + '/charging/start',
     headers: {
@@ -92,11 +92,11 @@ var startCharging = function(callback){
     //console.log('error:', error);
     //console.log('statusCode:', response && response.statusCode);
     //console.log('body:', body);
-    callback(body);
+    callback.send(body);
   });
-}
+});
 
-var stopCharging = function(callback){
+var stopCharging = function(req, callback){
   request.put({
     url: REST_API_CONFIG.app_uri + '/charging/stop',
     headers: {
@@ -106,11 +106,11 @@ var stopCharging = function(callback){
     //console.log('error:', error);
     //console.log('statusCode:', response && response.statusCode);
     //console.log('body:', body);
-    callback(body);
+    callback.send(body);
   });
 }
 
-var setChargingLimit = function(callback,data){
+app.put('/setChargingLimit', function(callback,data){
   request.put({
     url: REST_API_CONFIG.app_uri + '/charging/limit',
     headers: {
@@ -124,11 +124,11 @@ var setChargingLimit = function(callback,data){
     //console.log('error:', error);
     //console.log('statusCode:', response && response.statusCode);
     //console.log('body:', body);
-    callback(body);
+    callback.send(body);
   });
-}
+});
 
-var getUsage = function(callback){
+app.get('/getUsage', function(req, callback){
   request.get({
     url: REST_API_CONFIG.app_uri + '/usage',
     headers: {
@@ -138,11 +138,11 @@ var getUsage = function(callback){
     //console.log('error:', error);
     //console.log('statusCode:', response && response.statusCode);
     //console.log('body:', body);
-    callback(body);
+    callback.send(body);
   });
-}
+});
 
-var getNavi = function(callback){
+app.get('/getNavi',function(req, callback){
   request.get({
     url: REST_API_CONFIG.app_uri + '/navi/destination',
     headers: {
@@ -152,11 +152,11 @@ var getNavi = function(callback){
     //console.log('error:', error);
     //console.log('statusCode:', response && response.statusCode);
     //console.log('body:', body);
-    callback(body);
+    callback.send(body);
   });
-}
+});
 
-var setNavi = function(callback,data){
+app.put('/setNavi',function(callback,data){
   request.put({
     url: REST_API_CONFIG.app_uri + '/navi/destination',
     headers: {
@@ -175,16 +175,6 @@ var setNavi = function(callback,data){
     //console.log('error:', error);
     //console.log('statusCode:', response && response.statusCode);
     //console.log('body:', body);
-    callback(body);
+    callback.send(body);
   });
-}
-
-
-module.exports.getDiagnostics = getDiagnostics;
-module.exports.getLocation    = getLocation;
-module.exports.getCharging    = getCharging;
-module.exports.startCharging  = startCharging;
-module.exports.stopCharging   = stopCharging;
-module.exports.setChargingLimit   = setChargingLimit;
-module.exports.getUsage       = getUsage;
-module.exports.getNavi        = getNavi;
+});
