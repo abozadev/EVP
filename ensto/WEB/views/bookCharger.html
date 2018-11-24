@@ -1,0 +1,17 @@
+<ul>
+  <li ng-repeat="cpg in chargingPointsGroup">
+    {{cpg.name}}
+    <ul>
+      <li ng-repeat="cp in cpg.chargingPoints">{{cp.identifier}}</li>
+    </ul>
+  </li>
+</ul>
+
+
+
+
+<table>
+  <thead>
+    <th>Name</th>
+  </thead>
+</table>
