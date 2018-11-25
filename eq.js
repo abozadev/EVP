@@ -31,6 +31,8 @@ var path = require("path");
 var express = require('express');
 var app = express();
 
+require('./ensto/ensto')
+
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
