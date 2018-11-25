@@ -55,7 +55,6 @@ Service.getLocation().then(function(success){
                 strokeWeight: 2,
                 fillColor: '#FF0000',
                 fillOpacity: 0.35,
-                map: map,
                 center: position,
                 radius: radius
     });
@@ -117,6 +116,7 @@ Service.getLocation().then(function(success){
                infowindow.setContent(place.name);
                infowindow.open(map, marker);
                end = { lat: marker.getPosition().lat(), lng: marker.getPosition().lng()}
+               waypts = [];
                route(position);
            });
 
@@ -134,17 +134,28 @@ Service.getLocation().then(function(success){
 
   function calcRoute(waypts) {
   //var start = document.getElementById('start').value;
-  var request = {
-    origin: position,
-    destination: end,
-    travelMode: 'DRIVING',
-    waypoints: waypts,
-  };
-  directionsService.route(request, function(result, status) {
+  if (waypts.length > 0){
+    var request = {
+      origin: position,
+      destination: end,
+      travelMode: 'DRIVING',
+      waypoints: waypts,
+    };
+  }
+  else {
+    var request = {
+      origin: position,
+      destination: end,
+      travelMode: 'DRIVING'
+    };
+  }
+  directionService.route(request, function(result, status) {
       if (status == 'OK') {
-        directionsDisplay.setDirections(result);
+        directionsRenderer.setDirections(result);
+        //$scope.route = result;
       }
   });
+
 }
 
 function sqr(x) { return x * x }
@@ -184,11 +195,13 @@ function geoDistanceKm(p1,p2) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;
 }
+  var counter = 0;
 
   function route(start) {
       // Clear any previous route boxes from the map
+
       console.log('routing');
-      if (geoDistanceKm_2(start,end) >= radius/1000){
+      if (geoDistanceKm_2(start,end) >= (radius/1000) - 100){
       console.log('routing');
 
       clearBoxes();
@@ -210,16 +223,29 @@ function geoDistanceKm(p1,p2) {
       directionService.route(request, function (result, status) {
           if (status == google.maps.DirectionsStatus.OK) {
               directionsRenderer.setDirections(result);
-
-              //search within boundaries
-              bounds = circle.getBounds();
-
-              //draw box around boundaries
-              drawBoxes(bounds);
           } else {
               alert("Directions query failed: " + status);
           }
-
+          var f = false;
+          for (var x = 0; x < result.routes[0].overview_path.length && !f; x++)
+          {
+            var posX = {lat: result.routes[0].overview_path[x].lat(), lng: result.routes[0].overview_path[x].lng()};
+            if (geoDistanceKm_2(start,posX) >= ((radius/1000) - 50))
+            {
+              circle = new google.maps.Circle({
+                          strokeColor: '#FF0000',
+                          strokeOpacity: 0.8,
+                          strokeWeight: 2,
+                          fillColor: '#FF0000',
+                          fillOpacity: 0.35,
+                          center: posX,
+                          //map: map,
+                          radius: 70000
+              });
+              f = true;
+            }
+          }
+          bounds = circle.getBounds();
           // Perform search over this bounds
           var request = {
               bounds: bounds,
@@ -245,22 +271,25 @@ function geoDistanceKm(p1,p2) {
               console.log(results[0].geometry.location);
               var found = false;
 
-              for (var i = 0; i < results.length && results[i].geoDistKm < 10 && !found; i++)
+              for (var i = 0; i < results.length && results[i].geoDistKm < 25 && !found; i++)
               {
                 var pos_aux = {lat: results[i].geometry.location.lat(), lng: results[i].geometry.location.lng()}
-                if (geoDistanceKm_2(start, pos_aux) >= (radius/1000)/2) {
+                if (geoDistanceKm_2(start, pos_aux) >= (((radius/1000)/2) - 50)) {
                   found = true;
                 }
                 way.location = pos_aux;
-                renderMarker(results[i]);
+                //renderMarker(results[i]);
                 //renderResult(results[i],result.routes[0].overview_path);
               } //renderResult(results[i],result.routes[0].overview_path);
               waypts.push(way);
+              counter = counter + 1;
           }
             route(way.location);
           });
       });
 
+    } else {
+      calcRoute(waypts);
     }
   }
 
