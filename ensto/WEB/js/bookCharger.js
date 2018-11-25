@@ -153,9 +153,9 @@ app.controller('BookChargerCtrl', function($scope, $location, $rootScope, $route
       var mask = date.date() + '/' + month + '/' + date.year();
 
       $scope.bookedHours.forEach(function(bookedHours){
-        if (bookedHours.day === mask && bookedHours.chargingPoint == $scope.chargingPoint.id){
+        if (bookedHours.day === mask){
           bookedHours.bookedHours.forEach(function(hour){
-            if (date.hour() +"" === hour.hour){
+            if (date.hour() +"" === hour.hour &&  hour.chargingPoint == $scope.chargingPoint.id){
               ret = false;
             }
           })
