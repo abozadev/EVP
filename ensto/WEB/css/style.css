@@ -23,6 +23,12 @@ ul li  ul {
   position: relative;
 }
 
+#map_route {
+  height: 500px;
+  width: 100%;
+  position: absolute;
+}
+
 .mapCharger #map {
   min-height: 40vh;
 }

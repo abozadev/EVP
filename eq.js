@@ -82,8 +82,8 @@ app.get('/getCharging', function(req, callback){
     }
   }, (error, response, body) => {
     //console.log('error:', error);
-    //console.log('statusCode:', response && response.statusCode);
-    //console.log('body:', body);
+    console.log('statusCode:', response && response.statusCode);
+    console.log('body:', body);
     callback.send(body);
   });
 });
