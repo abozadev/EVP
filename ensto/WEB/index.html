@@ -46,12 +46,12 @@
 </head>
 
 <body ng-controller="MainCtrl">
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="margin-bottom: 0px !important">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">EVP</a>
         </div>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" >
             <li ng-class="getActive() == 'HOME' ? 'active' : ''">
                 <a href="#">Home</a>
             </li>
@@ -59,17 +59,17 @@
                 <a href="" ng-click="goTo('/bookCharger')">Book Charger</a>
             </li>
             <li ng-class="getActive() == 'MAP' ? 'active' : ''">
-                <a href="" ng-click="goTo('/map')">Map</a>
+                <a href="" ng-click="goTo('/map')">Plan route</a>
             </li>
         </ul>
     </div>
 </nav>
 <div ng-view></div>
-<div id="footer">
+<!--<div id="footer">
     <div class="container text-center">
         <p class="text-muted credit">EVP with ❤️ at Junction</p>
     </div>
-</div>
+</div>-->
 </body>
 
 </html>

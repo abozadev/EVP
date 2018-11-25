@@ -1,0 +1,29 @@
+<div id="pois_modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">POIs</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">        
+                    <div class="col-xs-12">
+                        <h3>POI:</h3>
+                        <tags-input ng-model="selectedPlaces" add-from-autocomplete-only="true" on-tag-added="searchPOIs()" on-tag-removed="searchPOIs()" replace-spaces-with-dashes="false">
+                            <auto-complete source="loadTags($query)" ></auto-complete>
+                        </tags-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 mapCharger" >
+                        <div id="map"></div>
+                    </div>
+                </div>       
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

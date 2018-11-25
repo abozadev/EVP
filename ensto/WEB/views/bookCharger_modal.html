@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-6 form-group">
+                    <div class="col-xs-6 form-group" ng-if="!hideHours">
                         <label >Date and Time</label>
                         <input class="form-control" moment-picker="bookCharge.date" ng-model="bookCharge.dateModel"
                             format="DD/MM/YYYY ha" max-view="hour" selectable="checkDate(date, type)" placeholder="Datetime">

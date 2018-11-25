@@ -1,4 +1,4 @@
-<div class="row" style="margin-left: 40px; margin-right: 40px">
+<div class="row" style="margin-left: 40px; margin-right: 40px; margin-top: 20px">
   <div class="col-md-2 col-xs-6">
     <label>Destination:</label>
     <input id="pac-input" class="controls form-control" type="text" placeholder="Where you want to go?">
@@ -12,5 +12,25 @@
     <button id="search-route" type="button" name="button" class="btn btn-primary" style="margin-top: 22px">Go!</button>
   </div>
 </div>
-  <br>
+<br/>
 <div id="map_route"></div>
+<br/>
+<div class="row" style="margin-left: 25px; margin-right: 40px">
+  <div class="col-xs-12 col-md-4 well" ng-repeat="step in routeSteps.routes[0].legs track by $index" >
+    <h2>{{ABC[$index] | uppercase }} </h2>
+    <ul>
+      <li><strong>Distance: </strong>{{step.distance.text}}</li>
+      <li><strong>Duration: </strong>{{step.duration.text}}</li>
+      <li><strong>Time to charge: </strong>4h</li>
+      <li><strong>Estimated time:</strong>{{calcTime($index, step.duration.value) |date:'dd/MM/YYYY h:MM a'}}</li>
+    </ul>
+    <br>
+    <button type="submit" class="btn btn-success" ng-click="bookCharger()">Book</button>
+    <button type="submit" class="btn btn-primary" ng-click="poisModal(step)">POIs</button>
+  </div>
+</div>
+
+
+
+<div ng-include="'/views/bookCharger_modal.html'"></div>
+<div ng-include="'/views/pois_modal.html'"></div>

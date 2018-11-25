@@ -1,20 +1,21 @@
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Delivery Date</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="row in trackList track by $index">
-      <td>{{row.number}}</td>
-      <td>{{row.name}}</td>
-      <td>{{row.date | date:'dd/MM/yyyy hh:mm' }}</td>
-      <td style="color : {{row.color}}">{{row.status}}</td>
-      <td><a ng-click="goTo(row)" href="">View Details</a></td>
-    </tr>
-  </tbody>
-</table>
+<div class="jumbotron text-center">
+  <h1>EV Planner</h1>
+  <p>Book and plan your EV travels!</p> 
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Book</h3>
+      <p>Book your EV Charge in 2 steps</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Plan</h3>
+      <p>Plan long routes without preocupations</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Enjoy</h3> 
+      <p>Search POI near the charger!</p>
+    </div>
+  </div>
+</div>

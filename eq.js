@@ -48,16 +48,16 @@ var server = app.listen(port, function () {
 });
 
 app.get('/getDiagnostics', function(req, callback){
-  console.log("EQ API");
+  //console.log("EQ API");
   request.get({
     url: REST_API_CONFIG.app_uri + '/diagnostics',
     headers: {
       'Authorization': 'Bearer ' + jwtToken
     }
   }, (error, response, body) => {
-    console.log('error:', error);
-    console.log('statusCode:', response && response.statusCode);
-    console.log('body:', body);
+    //console.log('error:', error);
+    //console.log('statusCode:', response && response.statusCode);
+    //console.log('body:', body);
     callback.send(body);
   });
 });
@@ -70,8 +70,8 @@ app.get('/getLocation', function(req, callback){
     }
   }, (error, response, body) => {
     //console.log('error:', error);
-    console.log('statusCode:', response && response.statusCode);
-    console.log('body:', body);
+    //console.log('statusCode:', response && response.statusCode);
+    //console.log('body:', body);
     callback.send(body);
   });
 });
@@ -84,8 +84,8 @@ app.get('/getCharging', function(req, callback){
     }
   }, (error, response, body) => {
     //console.log('error:', error);
-    console.log('statusCode:', response && response.statusCode);
-    console.log('body:', body);
+    //console.log('statusCode:', response && response.statusCode);
+    //console.log('body:', body);
     callback.send(body);
   });
 });

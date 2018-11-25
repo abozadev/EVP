@@ -132,7 +132,7 @@ Service.getLocation().then(function(success){
 
   }
 
-  function calcRoute(waypts) {
+  $scope.calcRoute = function(waypts) {
   //var start = document.getElementById('start').value;
   if (waypts.length > 0){
     var request = {
@@ -151,13 +151,15 @@ Service.getLocation().then(function(success){
   }
   directionService.route(request, function(result, status) {
       if (status == 'OK') {
-        $scope.route = result.legs;
+        $rootScope.routeSteps = angular.copy(result);
+        $scope.$apply()
         directionsRenderer.setDirections(result);
       }
   });
-
 }
+$scope.ABC = new Array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
 
+$rootScope.routeSteps = {};
 function sqr(x) { return x * x }
 function dist2(v, w) { return sqr(v.x - w.x) + sqr(v.y - w.y) }
 function distToSegment2(p, v, w) {
@@ -200,9 +202,7 @@ function geoDistanceKm(p1,p2) {
   function route(start) {
       // Clear any previous route boxes from the map
 
-      console.log('routing');
       if (geoDistanceKm_2(start,end) >= (radius/1000) - 100){
-      console.log('routing');
 
       clearBoxes();
 
@@ -268,7 +268,6 @@ function geoDistanceKm(p1,p2) {
               results.sort( function(a,b) { return a.coordDist2 - b.coordDist2; } );
               // display the results
               //waypts.push({ position: results[0].              })
-              console.log(results[0].geometry.location);
               var found = false;
 
               for (var i = 0; i < results.length && results[i].geoDistKm < 25 && !found; i++)
@@ -289,7 +288,7 @@ function geoDistanceKm(p1,p2) {
       });
 
     } else {
-      calcRoute(waypts);
+      $scope.calcRoute(waypts);
     }
   }
 
@@ -443,4 +442,134 @@ function geoDistanceKm(p1,p2) {
         return R * c;
     }
 
+
+    $scope.bookCharger = function(){
+      $('#bookCharge_modal').modal();
+      $scope.hideHours = true;
+    }
+
+    $scope.book = function(){
+      $('#bookCharge_modal').modal('hide');
+    }
+
+    $scope.poisModal = function(route){
+      $('#pois_modal').modal();
+      $scope.hideHours = true;
+      $scope.CHARGER_POSITION = {
+        lat : route.start_location.lat(),
+        lng: route.start_location.lng()
+      }
+      $scope.selectedPlaces = [];
+      $scope.markersList = [];
+      $scope.bookCharge = {};
+      $scope.initMap();
+    }
+
+    $scope.book = function(){
+      $('#bookCharge_modal').modal('hide');
+    }
+
+
+
+    Service.loadPlacesJSON().then(function(success){
+      $scope.listPlaces = success.data;
+    })
+  
+    $scope.loadTags = function(query){
+      var ret = [];
+      if (query != null && query.length > 0){
+        $scope.listPlaces.forEach(function(place){
+          if (place.value.toUpperCase().search(query.toUpperCase()) != -1){
+            ret.push(place.value);
+          }
+        });
+      }
+      return ret;
+    }
+
+    $scope.initMap = function() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: $scope.CHARGER_POSITION,
+        zoom: 15
+      });
+      var image = '../img/charger.png'
+      var marker = new google.maps.Marker({
+        position: $scope.CHARGER_POSITION,
+        map: map,
+        title: 'EV',
+        icon: image
+      });
+    }
+  
+    $scope.getPlacesType = function(){
+      var ret = [];
+      $scope.selectedPlaces.forEach(function(selectedPlace){
+        $scope.listPlaces.forEach(function(place){
+          if (place.value === selectedPlace.text){
+            ret.push(place.type);
+          }
+        })
+      })
+      return ret;
+    }
+  
+    $scope.searchPOIs = function(){
+      $scope.clearMarkers();
+      var placesList = $scope.getPlacesType();
+      infowindow = new google.maps.InfoWindow();
+      var service = new google.maps.places.PlacesService(map);
+      if (placesList.length > 0){
+        service.nearbySearch({
+          location: $scope.CHARGER_POSITION,
+          radius: 500,
+          type: placesList
+        }, $scope.callback);
+      }
+    }
+  
+    $scope.callback = function(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          $scope.createMarker(results[i]);
+        }
+      }
+    }
+  
+    $scope.createMarker = function(place) {
+      var placeLoc = place.geometry.location;
+      var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+      });
+      $scope.markersList.push(marker)
+  
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+      });
+    }
+  
+    $scope.clearMarkers = function(){
+      $scope.markersList.forEach(function(markers){
+        markers.setMap(null);
+      })
+      $scope.markersList = null;
+      $scope.markersList = [];
+    }
+
+    $scope.selectedPlaces = [];
+    $scope.markersList = [];
+    $scope.bookCharge = {};
+
+    $scope.calcTime = function(index, minutes){
+      var ret = '';
+      var tmp = null;
+      /*if ($scope.bookCharge.dateModel != undefined){
+        tmp = angular.copy($scope.bookCharge.dateModel) ;
+        tmp.seconds(tmp.seconds() + minutes);
+        tmp.seconds(tmp.seconds() + (index + 1)*14400)
+        ret = tmp;
+      }*/
+      return tmp;
+    }
 });

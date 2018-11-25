@@ -143,8 +143,6 @@ app.controller('BookChargerCtrl', function($scope, $location, $rootScope, $route
       $scope.bookedHours = success.data;
       $('#bookCharge_modal').modal();
     })
-      
-
   }
 
   $scope.checkDate = function(date, type){
