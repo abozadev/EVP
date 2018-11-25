@@ -3,8 +3,14 @@
     <label>Destination:</label>
     <input id="pac-input" class="controls form-control" type="text" placeholder="Where you want to go?">
   </div>
+  <div class="col-xs-6 col-md-2 form-group">
+     <label >Date and Time</label>
+     <input class="form-control" moment-picker="bookCharge.date" ng-model="bookCharge.dateModel"
+         format="DD/MM/YYYY h:mm a" max-view="minute" placeholder="Datetime">
+  </div>
   <div class="col-md-2 col-xs-6">
     <button id="search-route" type="button" name="button" class="btn btn-primary" style="margin-top: 22px">Go!</button>
   </div>
 </div>
+  <br>
 <div id="map_route"></div>
