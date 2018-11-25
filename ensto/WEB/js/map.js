@@ -151,8 +151,8 @@ Service.getLocation().then(function(success){
   }
   directionService.route(request, function(result, status) {
       if (status == 'OK') {
+        $scope.route = result.legs;
         directionsRenderer.setDirections(result);
-        //$scope.route = result;
       }
   });
 
@@ -230,7 +230,7 @@ function geoDistanceKm(p1,p2) {
           for (var x = 0; x < result.routes[0].overview_path.length && !f; x++)
           {
             var posX = {lat: result.routes[0].overview_path[x].lat(), lng: result.routes[0].overview_path[x].lng()};
-            if (geoDistanceKm_2(start,posX) >= ((radius/1000) - 50))
+            if (geoDistanceKm_2(start,posX) >= ((radius/1000) - (radius/1000)*(1/5)))
             {
               circle = new google.maps.Circle({
                           strokeColor: '#FF0000',
@@ -240,7 +240,7 @@ function geoDistanceKm(p1,p2) {
                           fillOpacity: 0.35,
                           center: posX,
                           //map: map,
-                          radius: 70000
+                          radius: radius/4
               });
               f = true;
             }
