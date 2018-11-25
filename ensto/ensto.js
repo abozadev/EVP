@@ -79,7 +79,7 @@ app.get('/bookedHours', function (req, res) {
 	res.send(chargeBookHours)
 });
 
-app.push('/chargingPoint/:id', function (req, res) {
+app.post('/chargingPoint/:id', function (req, res) {
 	request.post({
 	  url: REST_API_CONFIG.URL + 'idTag/' + req.params.id + '/chargingPoint',
 	  headers: {
